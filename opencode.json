@@ -8,23 +8,32 @@
       "name": "GitHub Models API",
       "options": {
         "baseURL": "https://models.inference.ai.azure.com",
-        "apiKey": "{env:GITHUB_MODELS_TOKEN}"
+        "apiKey": "{env:GH_PAT}"
       },
       "models": {
         "gpt-4o": {
-          "name": "GPT-4o (High Tier)"
+          "name": "GPT-4o (High Tier)",
+          "limit": {
+            "output": 16384
+          }
         },
         "claude-3-5-sonnet": {
-          "name": "Claude 3.5 Sonnet (High Tier)"
+          "name": "Claude 3.5 Sonnet (High Tier)",
+          "limit": {
+            "output": 8192
+          }
         },
         "gpt-4o-mini": {
-          "name": "GPT-4o Mini (Low Tier - 150/day)"
+          "name": "GPT-4o Mini (Low Tier - 150/day)",
+          "limit": {
+            "output": 16384
+          }
         },
         "Llama-3.3-70B-Instruct": {
-          "name": "Llama 3.3 70B (Low Tier - 150/day)"
-        },
-        "Phi-4": {
-          "name": "Phi-4 (Low Tier - 150/day)"
+          "name": "Llama 3.3 70B (Low Tier - 150/day)",
+          "limit": {
+            "output": 8192
+          }
         }
       }
     }
