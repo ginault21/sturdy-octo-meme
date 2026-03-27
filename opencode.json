@@ -8,7 +8,7 @@
       "name": "GitHub Models API",
       "options": {
         "baseURL": "https://models.inference.ai.azure.com",
-        "apiKey": "{env:GITHUB_MODELS_TOKEN}"
+        "apiKey": "{env:GH_PAT}"
       },
       "models": {
         "gpt-4o": {
