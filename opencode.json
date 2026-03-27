@@ -1,0 +1,43 @@
+{
+  "provider": {
+    "github-models": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "GitHub Models API",
+      "options": {
+        "baseURL": "https://models.inference.ai.azure.com",
+        "apiKey": "{env:GITHUB_MODELS_TOKEN}"
+      },
+      "models": {
+        "gpt-4o": {
+          "name": "GPT-4o (High Tier)"
+        },
+        "claude-3-5-sonnet": {
+          "name": "Claude 3.5 Sonnet (High Tier)"
+        },
+        "gpt-4o-mini": {
+          "name": "GPT-4o Mini (Low Tier - 150/day)"
+        },
+        "Llama-3.3-70B-Instruct": {
+          "name": "Llama 3.3 70B (Low Tier - 150/day)"
+        },
+        "Phi-4": {
+          "name": "Phi-4 (Low Tier - 150/day)"
+        }
+      }
+    }
+  },
+  "agents": {
+    "coder": {
+      "model": "github-models/gpt-4o",
+      "maxTokens": 4096
+    },
+    "task": {
+      "model": "github-models/gpt-4o-mini",
+      "maxTokens": 4096
+    },
+    "title": {
+      "model": "github-models/gpt-4o-mini",
+      "maxTokens": 100
+    }
+  }
+}
