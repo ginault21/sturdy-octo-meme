@@ -1,0 +1,98 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Note that some adapters may set a maximum length for the String type by default, please ensure your strings are long
+// enough when changing adapters.
+// See https://www.prisma.io/docs/orm/reference/prisma-schema-reference#string for more information
+datasource db {
+  provider = "sqlite"
+  url      = "file:dev.sqlite"
+}
+
+model Session {
+  id                  String    @id
+  shop                String
+  state               String
+  isOnline            Boolean   @default(false)
+  scope               String?
+  expires             DateTime?
+  accessToken         String
+  userId              BigInt?
+  firstName           String?
+  lastName            String?
+  email               String?
+  accountOwner        Boolean   @default(false)
+  locale              String?
+  collaborator        Boolean?  @default(false)
+  emailVerified       Boolean?  @default(false)
+  refreshToken        String?
+  refreshTokenExpires DateTime?
+}
+
+model Store {
+  id            String   @id @default(cuid())
+  shopDomain    String   @unique
+  accessToken   String
+  plan          String   @default("trial")
+  jobsThisMonth Int      @default(0)
+  monthResetAt  DateTime?
+  installedAt   DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  jobs          Job[]
+  files         File[]
+}
+
+model Job {
+  id        String    @id @default(cuid())
+  storeId   String
+  store     Store     @relation(fields: [storeId], references: [id])
+  type      String
+  status    String    @default("queued")
+  config    String
+  summary   String?
+  createdAt DateTime  @default(now())
+  startedAt DateTime?
+  finishedAt DateTime?
+  files     File[]
+  changeLogs ChangeLog[]
+}
+
+model File {
+  id         String   @id @default(cuid())
+  storeId    String
+  store      Store    @relation(fields: [storeId], references: [id])
+  jobId      String?
+  job        Job?     @relation(fields: [jobId], references: [id])
+  kind       String
+  storageUrl String?
+  metadata   String?
+  createdAt  DateTime @default(now())
+
+  @@index([jobId])
+}
+
+model ChangeLog {
+  id                String   @id @default(cuid())
+  jobId             String
+  job               Job      @relation(fields: [jobId], references: [id])
+  shopifyProductId  String
+  shopifyVariantId  String?
+  field             String
+  oldValue          String
+  newValue          String
+  createdAt         DateTime @default(now())
+
+  @@index([jobId])
+  @@index([shopifyProductId])
+}
+
+model JobTemplate {
+  id     String @id @default(cuid())
+  type   String
+  label  String
+  config String
+}
